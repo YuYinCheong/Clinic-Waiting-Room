@@ -16,5 +16,9 @@ public interface PatientDirectory {
 
     // Returns a list containing all patients in the directory.
     List<Patient> getAllPatients();
+    
+    // Returns all patients whose full name matches, ignoring capitalization.
+    // Returns an empty list if no patients match.
+    List<Patient> findPatientsByName(String name);
 
 }
