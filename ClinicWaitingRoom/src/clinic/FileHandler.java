@@ -1,5 +1,10 @@
 package clinic;
 import java.time.LocalDateTime;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.time.format.DateTimeParseException;
 
 // Reads patient records from a CSV file into a patient directory.
 public class FileHandler {
@@ -54,4 +59,52 @@ public class FileHandler {
 	
 	     return new Patient(id, name, arrivalTime, status);
 	 }
+	 
+	// Loads valid patient records and returns the number successfully added.
+	// Reports invalid rows and duplicate IDs, then continues reading.
+	// File-reading errors are passed to the calling code.
+	public int loadPatients(PatientDirectory directory) throws IOException {
+
+	    int loadedCount = 0;
+
+	    try (BufferedReader reader = new BufferedReader(
+	            new FileReader(filePath, StandardCharsets.UTF_8))) {
+
+	        String header = reader.readLine();
+
+	        if (!"patientId,name,arrivalTime,status".equals(header)) {
+	            throw new IOException("Missing or incorrect CSV header.");
+	        }
+
+	        String line;
+	        int lineNumber = 1;
+
+	        while ((line = reader.readLine()) != null) {
+
+	            lineNumber++;
+
+	            if (line.trim().isEmpty()) {
+	                continue;
+	            }
+
+	            try {
+	                Patient patient = parseRecord(line);
+
+	                if (directory.addPatient(patient)) {
+	                    loadedCount++;
+	                } else {
+	                    System.out.println("Skipped line " + lineNumber
+	                            + ": duplicate patient ID "
+	                            + patient.getPatientId());
+	                }
+
+	            } catch (IllegalArgumentException | DateTimeParseException e) {
+	                System.out.println("Skipped line " + lineNumber
+	                        + ": " + e.getMessage());
+	            }
+	        }
+	    }
+
+	    return loadedCount;
+	}
 }
