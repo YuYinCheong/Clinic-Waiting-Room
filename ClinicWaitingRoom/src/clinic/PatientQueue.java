@@ -17,6 +17,18 @@ public class PatientQueue{
 		if(patient == null) {
 			throw new IllegalArgumentException("Patient cannot be null");
 		}
-		waitingQueue.
+		waitingQueue.add(patient);
+	}
+	
+	public Patient dequeue() {
+		reutrn waitingQueue.poll();
+	}
+	
+	public List<Patient> getWaitingPatients(){
+		return new ArrayList<>(waitingQueue);
+	}
+	
+	public boolean isEmpty() {
+		return waitingQueue.isEmpty();
 	}
 }
