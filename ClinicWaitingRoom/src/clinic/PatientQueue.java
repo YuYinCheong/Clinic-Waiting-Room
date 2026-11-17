@@ -8,11 +8,12 @@ import java.util.Queue;
 public class PatientQueue{
 	private Queue<Patient> waitingQueue;
 	
-	
+	//Declare Queue list
 	public PatientQueue() {
 		this.waitingQueue = new LinkedList<>();
 	}
 	
+	//Exception throw for empty list
 	public void enqueue(Patient patient) {
 		if(patient == null) {
 			throw new IllegalArgumentException("Patient cannot be null");
@@ -20,14 +21,17 @@ public class PatientQueue{
 		waitingQueue.add(patient);
 	}
 	
+	//Dequeue waiting list
 	public Patient dequeue() {
-		reutrn waitingQueue.poll();
+		return waitingQueue.poll();
 	}
 	
+	//Copy of list
 	public List<Patient> getWaitingPatients(){
 		return new ArrayList<>(waitingQueue);
 	}
 	
+	//boolean if empty check
 	public boolean isEmpty() {
 		return waitingQueue.isEmpty();
 	}
