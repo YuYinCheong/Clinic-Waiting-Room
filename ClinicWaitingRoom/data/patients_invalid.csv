@@ -1,0 +1,10 @@
+patientId,name,arrivalTime,status
+2001,Isabella Rossi,2026-11-16T10:00,WAITING
+2001,Daniel Mensah,2026-11-16T10:05,WAITING
+abc,Leila Haddad,,REGISTERED
+2002,,2026-11-16T10:10,WAITING
+2003,Mateo Silva,,UNKNOWN
+2004,Anika Patel,not-a-date,WAITING
+2005,Lucas Andersen,,WAITING
+2006,Hana Kim
+2007,Valentina Torres,,REGISTERED

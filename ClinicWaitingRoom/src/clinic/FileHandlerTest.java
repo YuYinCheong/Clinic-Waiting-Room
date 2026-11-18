@@ -11,7 +11,14 @@ public class FileHandlerTest {
         PatientDirectory directory = new PatientBST();
 
         // The path is relative to the program's working directory.
-        FileHandler loader = new FileHandler("data/patients.csv");
+        // Use the supplied path, or the original sample file by default.
+        String filePath = "data/patients.csv";
+
+        if (args.length > 0) {
+            filePath = args[0];
+        }
+
+        FileHandler loader = new FileHandler(filePath);
 
         try {
             int loadedCount = loader.loadPatients(directory);
