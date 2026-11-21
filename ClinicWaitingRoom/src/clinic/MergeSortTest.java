@@ -140,6 +140,37 @@ public class MergeSortTest {
             }//end if
 
             System.out.println("\nPASS: CSV patients sorted correctly.");
+            // Demonstrate the team's FIFO queue.
+            PatientQueue queue = new PatientQueue();
+
+            for (Patient patient : sorted) 
+            {
+                queue.enqueue(patient);
+            }//end for
+            System.out.println("\n===== TEST 3: FIFO QUEUE =====");
+            System.out.println("Patients enqueued: " + queue.getWaitingPatients().size());
+
+            // Dequeue the earliest waiting patient.
+            Patient nextPatient = queue.dequeue();
+
+            if (nextPatient != null) 
+            {
+               nextPatient.markCalled();
+               System.out.println("Dequeued patient: " + nextPatient.getPatientId());
+               System.out.println("Updated status: " + nextPatient.getStatus());
+
+                // Verify the patient remains in the BST.
+                Patient found = directory.findPatientById(nextPatient.getPatientId());
+
+                if (found != nextPatient || !found.getStatus().equals("CALLED")) 
+                {
+                    throw new IllegalStateException("FAIL: BST record was not updated.");
+                }//end if
+                
+                System.out.println("PASS: Patient remains in the BST.");
+            }//end if
+            System.out.println("Remaining in queue: " + queue.getWaitingPatients().size());
+            System.out.println("\nALL TESTS COMPLETED SUCCESSFULLY.");
 
         }//end try 
         catch (IOException e) 
@@ -148,8 +179,10 @@ public class MergeSortTest {
             System.err.println("Check file location: " + filePath);
             System.exit(1);
         }//end catch
+        
     }//endtestcsv
-
+    
+    
     // Verify chronological order, using patient ID for ties.
     private static boolean isSorted(List<Patient> patients) 
     {
